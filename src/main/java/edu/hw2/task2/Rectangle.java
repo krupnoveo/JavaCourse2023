@@ -11,11 +11,11 @@ public class Rectangle {
         this.width = width;
     }
 
-    public Rectangle setWidth(int width) {
+    public final Rectangle setWidth(int width) {
         return new Rectangle(width, height);
     }
 
-    public Rectangle setHeight(int height) {
+    public final Rectangle setHeight(int height) {
         return new Rectangle(width, height);
     }
 

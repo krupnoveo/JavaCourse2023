@@ -16,21 +16,23 @@ public class PopularCommandExecutor {
         this.maxAttempts = maxAttempts;
     }
 
-    public void updatePackages() {
+    public void updatePackages() throws Exception {
         tryExecute("apt update && apt upgrade -y");
     }
 
-    void tryExecute(String command) {
+    void tryExecute(String command) throws Exception {
         ConnectionException exception = null;
+        Connection connection = null;
         for (int attempt = 0; attempt < maxAttempts; attempt++) {
-            try (Connection connection = manager.getConnection()) {
+            try {
+                connection = manager.getConnection();
                 connection.execute(command);
                 LOGGER.info("Command " + command + " was successfully performed");
                 return;
-            } catch (Exception e) {
-                if (e instanceof ConnectionException) {
-                    exception = (ConnectionException) e;
-                }
+            } catch (ConnectionException e) {
+                exception = e;
+            } finally {
+                connection.close();
             }
         }
         if (exception != null) {
