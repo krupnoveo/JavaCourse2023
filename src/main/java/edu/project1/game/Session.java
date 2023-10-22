@@ -1,7 +1,6 @@
 package edu.project1.game;
 
 import edu.project1.outputInfo.GuessResult;
-import edu.project1.settings.GameSettings;
 import edu.project1.settings.Settings;
 import java.util.Arrays;
 import java.util.HashMap;
