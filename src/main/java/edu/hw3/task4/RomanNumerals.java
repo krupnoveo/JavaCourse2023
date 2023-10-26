@@ -1,6 +1,5 @@
 package edu.hw3.task4;
 
-import java.util.Collections;
 import java.util.TreeMap;
 
 @SuppressWarnings("MagicNumber")
