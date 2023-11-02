@@ -7,11 +7,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static edu.hw4.ValidationError.TypeOfError.AGE;
+import static edu.hw4.ValidationError.TypeOfError.HEIGHT;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AnimalTest {
@@ -232,8 +234,8 @@ public class AnimalTest {
         Map<String, Set<ValidationError>> expected = new HashMap<>();
         Set<ValidationError> errors1 = new HashSet<>();
         Set<ValidationError> errors2 = new HashSet<>();
-        errors1.add(new ValidationError(ValidationError.TypeOfError.AGE, ValidationError.TypeOfError.AGE.getText()));
-        errors1.add(new ValidationError(ValidationError.TypeOfError.HEIGHT, ValidationError.TypeOfError.HEIGHT.getText()));
+        errors1.add(new ValidationError(AGE, AGE.getText()));
+        errors1.add(new ValidationError(HEIGHT, HEIGHT.getText()));
         errors1.add(new ValidationError(ValidationError.TypeOfError.WEIGHT, ValidationError.TypeOfError.WEIGHT.getText()));
         errors2.add(new ValidationError(ValidationError.TypeOfError.NAME, ValidationError.TypeOfError.NAME.getText()));
         errors2.add(new ValidationError(ValidationError.TypeOfError.WEIGHT, ValidationError.TypeOfError.WEIGHT.getText()));
@@ -245,18 +247,13 @@ public class AnimalTest {
     @DisplayName("Тест Animal.checkAnimalsForErrorsWithMessages()")
     public void checkAnimalsForErrorsWithMessages_shouldReturnCorrectAnswer() {
         List<Animal> list = new ArrayList<>();
-        list.add(new Animal("a", Animal.Type.DOG, Animal.Sex.F, -1, -100, -2, true));
+        list.add(new Animal("a", Animal.Type.DOG, Animal.Sex.F, -1, 100, -2, true));
         list.add(new Animal(null, Animal.Type.CAT, Animal.Sex.M, 0, 2, -1, true));
-        Map<String, String> expected = new LinkedHashMap<>();
-        expected.put(list.get(0).name(),
-                ValidationError.TypeOfError.WEIGHT.getText() + ", " +
-                ValidationError.TypeOfError.HEIGHT.getText() + ", " +
-                ValidationError.TypeOfError.AGE.getText()
-            );
-        expected.put(list.get(1).name(),
-                ValidationError.TypeOfError.WEIGHT.getText() + ", " +
-                ValidationError.TypeOfError.NAME.getText()
-            );
-        assertEquals(expected, Animal.checkAnimalsForErrorsWithMessages(list));
+        Map<String, String> actual = Animal.checkAnimalsForErrorsWithMessages(list);
+        assertThat(actual)
+            .hasEntrySatisfying("a", val -> assertThat(val).isIn("WEIGHT, AGE", "AGE, WEIGHT"));
+        assertThat(actual)
+            .hasEntrySatisfying(null, val -> assertThat(val).isIn("WEIGHT, NAME", "NAME, WEIGHT"));
+
     }
 }

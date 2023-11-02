@@ -178,7 +178,7 @@ public record Animal(
     public static Map<String, String> checkAnimalsForErrorsWithMessages(List<Animal> animals) {
         return animals.stream()
             .collect(Collectors.collectingAndThen(
-                Collectors.toMap(Animal::name, animal -> checkAnimalData(animal).stream().map(ValidationError::message)
+                Collectors.toMap(Animal::name, animal -> checkAnimalData(animal).stream().map(a -> a.error().toString())
                     .collect(Collectors.joining(", "))
                 ),
                 map -> {
