@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -246,7 +247,7 @@ public class AnimalTest {
         List<Animal> list = new ArrayList<>();
         list.add(new Animal("a", Animal.Type.DOG, Animal.Sex.F, -1, -100, -2, true));
         list.add(new Animal(null, Animal.Type.CAT, Animal.Sex.M, 0, 2, -1, true));
-        Map<String, String> expected = new HashMap<>();
+        Map<String, String> expected = new LinkedHashMap<>();
         expected.put(list.get(0).name(),
                 ValidationError.TypeOfError.WEIGHT.getText() + ", " +
                 ValidationError.TypeOfError.HEIGHT.getText() + ", " +
