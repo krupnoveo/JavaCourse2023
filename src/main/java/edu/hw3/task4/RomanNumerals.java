@@ -31,8 +31,9 @@ public final class RomanNumerals {
         int tempNumber = input;
         StringBuilder answer = new StringBuilder();
         while (tempNumber > 0) {
-            answer.append(ROMAN_NUMBERS.get(ROMAN_NUMBERS.floorKey(tempNumber)));
-            tempNumber -= ROMAN_NUMBERS.floorKey(tempNumber);
+            int maxVal = ROMAN_NUMBERS.floorKey(tempNumber);
+            answer.append(ROMAN_NUMBERS.get(maxVal));
+            tempNumber -= maxVal;
         }
         return answer.toString();
     }

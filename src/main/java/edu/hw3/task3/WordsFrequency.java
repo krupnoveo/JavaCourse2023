@@ -14,11 +14,7 @@ public final class WordsFrequency {
         }
         Map<T, Integer> frequencyDictionary = new HashMap<>();
         for (T elem : input) {
-            if (frequencyDictionary.containsKey(elem)) {
-                frequencyDictionary.put(elem, frequencyDictionary.get(elem) + 1);
-            } else {
-                frequencyDictionary.put(elem, 1);
-            }
+            frequencyDictionary.compute(elem, (key, val) -> val == null ? 1 : val + 1);
         }
         return frequencyDictionary;
     }
