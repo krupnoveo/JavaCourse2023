@@ -39,7 +39,7 @@ public record Animal(
 
     public static List<Animal> ascendingSortByHeight(List<Animal> animals) {
         return animals.stream()
-            .sorted((a, b) -> a.height() - b.height())
+            .sorted(Comparator.comparingInt(Animal::height))
             .toList();
     }
 
@@ -88,11 +88,10 @@ public record Animal(
             .orElse(null);
     }
 
-    public static Animal getHeaviestAnimalAmongSmallerThanK(List<Animal> animals, int k) {
+    public static Optional<Animal> getHeaviestAnimalAmongSmallerThanK(List<Animal> animals, int k) {
         return animals.stream()
-            .filter(animal -> animal.height() < k)
-            .max(Comparator.comparingLong(Animal::weight))
-            .orElse(null);
+                .filter(animal -> animal.height() < k)
+                .max(Comparator.comparingLong(Animal::weight));
     }
 
     public static Integer countAllPawsOfAnimals(List<Animal> animals) {

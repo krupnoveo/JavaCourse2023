@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import static edu.hw4.ValidationError.TypeOfError.AGE;
@@ -25,7 +26,7 @@ public class AnimalTest {
         animals.add(new Animal("a", Animal.Type.CAT, Animal.Sex.M, 2, 9, 2, true));
         animals.add(new Animal("a", Animal.Type.CAT, Animal.Sex.M, 2, 8, 2, true));
         List<Animal> expected = new ArrayList<>(animals);
-        Collections.sort(expected, Comparator.comparingInt(Animal::height));
+        expected.sort(Comparator.comparingInt(Animal::height));
         assertEquals(expected, Animal.ascendingSortByHeight(animals));
     }
     @Test
@@ -36,7 +37,7 @@ public class AnimalTest {
         animals.add(new Animal("a", Animal.Type.CAT, Animal.Sex.M, 2, 9, 2, true));
         animals.add(new Animal("a", Animal.Type.CAT, Animal.Sex.M, 2, 8, 2, true));
         List<Animal> expected = new ArrayList<>(animals);
-        Collections.sort(expected, Comparator.comparingInt(Animal::weight).reversed());
+        expected.sort(Comparator.comparingInt(Animal::weight).reversed());
         expected.remove(2);
         assertEquals(expected, Animal.descendingSortByWeight(animals, 2));
     }
@@ -104,7 +105,7 @@ public class AnimalTest {
         animals.add(new Animal("abc", Animal.Type.DOG, Animal.Sex.M, 4, 9, 3, true));
         animals.add(new Animal("ac", Animal.Type.CAT, Animal.Sex.M, 3, 8, 2, true));
         animals.add(new Animal("a", Animal.Type.DOG, Animal.Sex.F, 2, 11, 5, true));
-        Animal expected = animals.get(1);
+        Optional<Animal> expected = Optional.ofNullable(animals.get(1));
         assertEquals(expected, Animal.getHeaviestAnimalAmongSmallerThanK(animals, 10));
     }
     @Test
