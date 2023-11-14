@@ -48,7 +48,7 @@ public class PopularCommandExecutorTest {
     @DisplayName("Тест PopularCommandExecutor.tryExecute(), в котором DefaultConnectionManager вернёт FaultyConnection и оно вернёт исключение")
     public void tryExecute_fromPopularCommandExecutor_shouldThrowConnectionException() {
         assertThrows(ConnectionException.class, () -> {
-            Random random = new Random(3);
+            Random random = new Random(4);
             PopularCommandExecutor executor = new PopularCommandExecutor(new DefaultConnectionManager(random), 1);
             executor.updatePackages();
         });
