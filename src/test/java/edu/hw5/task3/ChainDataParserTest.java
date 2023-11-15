@@ -16,11 +16,11 @@ public class ChainDataParserTest {
             Arguments.of("2020-12-2", Optional.of(LocalDate.of(2020, 12, 2))),
             Arguments.of("1/3/1976", Optional.of(LocalDate.of(1976, 3,1))),
             Arguments.of("1/3/20", Optional.of(LocalDate.of(2020, 3, 1))),
-            Arguments.of("tomorrow", Optional.of(LocalDate.of(2023, 11, 8))),
-            Arguments.of("today", Optional.of(LocalDate.of(2023, 11, 7))),
-            Arguments.of("yesterday", Optional.of(LocalDate.of(2023, 11, 6))),
-            Arguments.of("1 day ago", Optional.of(LocalDate.of(2023, 11, 6))),
-            Arguments.of("2234 days ago", Optional.of(LocalDate.of(2017,9,25)))
+            Arguments.of("tomorrow", Optional.of(LocalDate.now().plusDays(1))),
+            Arguments.of("today", Optional.of(LocalDate.now())),
+            Arguments.of("yesterday", Optional.of(LocalDate.now().minusDays(1))),
+            Arguments.of("1 day ago", Optional.of(LocalDate.now().minusDays(1))),
+            Arguments.of("2234 days ago", Optional.of(LocalDate.now().minusDays(2234)))
         );
     }
     @ParameterizedTest
