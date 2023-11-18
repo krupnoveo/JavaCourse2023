@@ -9,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class HackerNews {
-    private static final int SECONDS_BEFORE_TIMEOUT = 30;
     private static final String TOP_STORIES_ID_REQUESTED_RESOURCE = "https://hacker-news.firebaseio.com/v0/topstories.json";
     private static final Pattern FORMAT_OF_RESPONSE_BY_ID = Pattern.compile(".*\"title\":\"(.*?)\".*");
 
