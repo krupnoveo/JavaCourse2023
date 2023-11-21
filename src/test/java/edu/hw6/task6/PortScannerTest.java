@@ -12,11 +12,11 @@ public class PortScannerTest {
     @DisplayName("Тест PortScanner.scanPorts")
     public void scanPorts_shouldReturnCorrectAnswer() {
         try (
-            ServerSocket tcpSocket = new ServerSocket(777);
-            DatagramSocket udpSocket = new DatagramSocket(777);
+            ServerSocket tcpSocket = new ServerSocket(10000);
+            DatagramSocket udpSocket = new DatagramSocket(10000);
             ) {
             List<List<String>> ports = PortScanner.scanPorts();
-            assertThat(ports).contains(List.of("TCP", "777", ""), List.of("UDP", "777", ""));
+            assertThat(ports).contains(List.of("TCP", "10000", ""), List.of("UDP", "10000", ""));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
