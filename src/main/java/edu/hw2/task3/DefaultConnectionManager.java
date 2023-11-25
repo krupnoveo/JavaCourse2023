@@ -17,7 +17,7 @@ public class DefaultConnectionManager implements ConnectionManager {
     @Override
     public Connection getConnection() {
         if (random.nextInt(MAX_CHANCE_OF_FAULTY_CONNECTION) == 2) {
-            return new FaultyConnection();
+            return new FaultyConnection(random);
         } else {
             return new StableConnection();
         }
