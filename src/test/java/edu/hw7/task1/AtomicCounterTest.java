@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AtomicCounterTest {
@@ -23,6 +24,14 @@ public class AtomicCounterTest {
             }, service);
         }
         CompletableFuture.allOf(futures).join();
+        service.shutdown();
+        try {
+            if (!service.awaitTermination(Character.MAX_VALUE, TimeUnit.MILLISECONDS)) {
+                service.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            service.shutdownNow();
+        }
         assertEquals(1000000, counter.get());
     }
 }

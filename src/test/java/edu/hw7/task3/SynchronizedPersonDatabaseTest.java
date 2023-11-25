@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,6 +26,14 @@ public class SynchronizedPersonDatabaseTest {
         CompletableFuture<List<Person>> personByPhone = CompletableFuture.supplyAsync(() -> personDatabase.findByPhone("87777777777"));
 
         CompletableFuture.allOf(addPerson1, addPerson2, personByName, personByAddress, personByPhone, deletePerson2).join();
+        service.shutdown();
+        try {
+            if (!service.awaitTermination(Character.MAX_VALUE, TimeUnit.MILLISECONDS)) {
+                service.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            service.shutdownNow();
+        }
         assertAll(
             () -> assertEquals(person1, personByName.get().get(0)),
             () -> assertEquals(person1, personByAddress.get().get(0)),
