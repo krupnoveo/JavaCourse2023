@@ -22,11 +22,6 @@ public class StatsCollector implements AutoCloseable {
     public void addMetric(String nameOfMetric, double[] data) {
         metricsCount.getAndIncrement();
         executorService.submit(() -> {
-            try {
-                Thread.sleep(1);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
             List<Double> stats = new ArrayList<>();
             double min = data[0];
             double max = data[0];
