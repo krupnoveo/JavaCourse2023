@@ -49,8 +49,4 @@ public class SingleThreadHacking extends DatabaseHacking {
             encodedDatabase.remove(md5Hash);
         }
     }
-
-    public static void main(String[] args) {
-        System.out.println(DigestUtils.md5Hex("pass"));
-    }
 }
