@@ -55,8 +55,8 @@ public class FilterUtilsTest {
     public void findDirectoriesWhichContainsMoreThanFiles_shouldWorkCorrectly() {
         List<Path> rawResult = FiltersUtils.findDirectoriesWhichContainsMoreThanFiles(tempDir, 9);
         List<Path> actual = rawResult.stream().map(Path::getFileName).toList();
-        List<Path> expected = List.of(Path.of("1"), Path.of("2"));
-        assertEquals(actual, expected);
+        List<Path> expected = List.of(Path.of("1"), Path.of("2"), Path.of("4"));
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test

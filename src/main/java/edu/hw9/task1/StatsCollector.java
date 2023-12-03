@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class StatsCollector implements AutoCloseable {
@@ -51,19 +52,22 @@ public class StatsCollector implements AutoCloseable {
     }
 
     public ConcurrentMap<String, List<Double>> getCollectedStatsAfterAllFinished() {
-        while (collectedStats.isEmpty() || metricsCount.get() != 0) {
+        while (metricsCount.get() != 0) {
             // await
         }
         return collectedStats;
     }
 
-    public void clearCollectedStats() {
-        collectedStats.clear();
-        metricsCount.set(0);
-    }
-
     @Override
     public void close() {
         executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(1, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException ex) {
+            executorService.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
     }
 }

@@ -45,8 +45,8 @@ public class StatsCollectorTest {
             });
         }
         ConcurrentMap<String, List<Double>> actual = collector.getCollectedStatsAfterAllFinished();
-        collector.clearCollectedStats();
         collector.close();
-        assertEquals(actual, expected);
+        executorService.shutdown();
+        assertEquals(expected, actual);
     }
 }
