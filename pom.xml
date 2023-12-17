@@ -199,8 +199,8 @@
                     <version>${jacoco-maven-plugin.version}</version>
                     <configuration>
                         <excludes>
-                            <exclude>ArithmeticUtils.class</exclude>
-                            <exclude>SwappedArithmeticUtils.class</exclude>
+                            <exclude>*ArithmeticUtils*</exclude>
+                            <exclude>*SwappedArithmeticUtils*</exclude>
                         </excludes>
                     </configuration>
                     <executions>
