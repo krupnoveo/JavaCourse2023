@@ -14,14 +14,7 @@ public final class PiCalculator {
     private PiCalculator() {}
 
     public static double singleThreadCalculator(long simulationsCount) {
-        long circleCount = 0;
-        for (long i = 0; i < simulationsCount; i++) {
-            double x = ThreadLocalRandom.current().nextDouble(RADIUS * 2) - RADIUS;
-            double y = ThreadLocalRandom.current().nextDouble(RADIUS * 2) - RADIUS;
-            if (x * x + y * y <= RADIUS * RADIUS) {
-                circleCount++;
-            }
-        }
+        long circleCount = dotsInCircleCounter(simulationsCount);
         return MONTE_CARLO_MULTIPLIER * circleCount / simulationsCount;
     }
 
@@ -31,16 +24,8 @@ public final class PiCalculator {
         CompletableFuture<Long>[] futures = new CompletableFuture[CORES_COUNT];
         for (int i = 0; i < CORES_COUNT; i++) {
             futures[i] = CompletableFuture.supplyAsync(() -> {
-                long circleCount = 0;
                 long simulationsPerThread = simulationsCount / CORES_COUNT;
-                for (long j = 0; j < simulationsPerThread; j++) {
-                    double x = ThreadLocalRandom.current().nextDouble(RADIUS * 2) - RADIUS;
-                    double y = ThreadLocalRandom.current().nextDouble(RADIUS * 2) - RADIUS;
-                    if (x * x + y * y <= RADIUS * RADIUS) {
-                        circleCount++;
-                    }
-                }
-                return circleCount;
+                return dotsInCircleCounter(simulationsPerThread);
             }, executorService);
         }
 
@@ -60,5 +45,17 @@ public final class PiCalculator {
             executorService.shutdownNow();
         }
         return MONTE_CARLO_MULTIPLIER * circleCounter / simulationsCount;
+    }
+
+    private static long dotsInCircleCounter(long simulationsCount) {
+        long circleCount = 0;
+        for (long i = 0; i < simulationsCount; i++) {
+            double x = ThreadLocalRandom.current().nextDouble(RADIUS * 2) - RADIUS;
+            double y = ThreadLocalRandom.current().nextDouble(RADIUS * 2) - RADIUS;
+            if (x * x + y * y <= RADIUS * RADIUS) {
+                circleCount++;
+            }
+        }
+        return circleCount;
     }
 }
