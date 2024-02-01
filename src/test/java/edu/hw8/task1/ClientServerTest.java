@@ -13,7 +13,7 @@ public class ClientServerTest {
     @Test
     @DisplayName("Тест Client и Server")
     public void clientServer_shouldWorkCorrectly() {
-        Server server = new Server(2, 18080);
+        Server server = new Server(2, 40080);
         ExecutorService service = Executors.newFixedThreadPool(5);
         service.execute(server::startServer);
         CompletableFuture<String>[] futures = new CompletableFuture[4];
@@ -26,7 +26,7 @@ public class ClientServerTest {
         for (int i = 0; i < 4; i++) {
             int temp = i;
             futures[i] = CompletableFuture.supplyAsync(() -> {
-                Client client1 = Client.connect("localhost", 18080);
+                Client client1 = Client.connect("localhost", 40080);
                 return client1.sendAndGet(requests.get(temp));
             }, service);
         }
