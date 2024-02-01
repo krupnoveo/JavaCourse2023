@@ -28,19 +28,19 @@ public final class FractalFlameGenerator {
         Path filename,
         ImageFormat generatedPictureFormat
     ) {
-        FractalImage image = FractalImage.create(resolution);
-        Renderer renderer = new MultiThreadRenderer();
-        ImageProcessor processor = new GammaCorrectionImageProcessor(preferredGamma);
-        renderer.render(
-            image,
-            world,
-            transformationList,
-            startPixelsCount,
-            producedPixelsForEachStartPixel,
-            symmetryAxisCount
-        );
-        processor.process(image);
         try {
+            FractalImage image = FractalImage.create(resolution);
+            Renderer renderer = new MultiThreadRenderer();
+            ImageProcessor processor = new GammaCorrectionImageProcessor(preferredGamma);
+            renderer.render(
+                image,
+                world,
+                transformationList,
+                startPixelsCount,
+                producedPixelsForEachStartPixel,
+                symmetryAxisCount
+            );
+            processor.process(image);
             ImageUtils.save(image, filename, generatedPictureFormat);
         } catch (Exception e) {
             return false;
